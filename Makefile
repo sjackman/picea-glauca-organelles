@@ -19,8 +19,14 @@ export TIMEFMT=time user=%U system=%S elapsed=%E cpu=%P memory=%M job=%J
 .SECONDARY:
 
 all: \
+	data/HG3VHALXX_4/files.sha256 \
+	data/HG3VHALXX_5/files.sha256 \
 	$(ref).HG3VHALXX_4.longranger.wgs.bam \
 	$(ref).HG3VHALXX_5.longranger.wgs.bam
+
+# Calculate the SHA-256 of the data.
+%/files.sha256: %/files
+	gsha256sum `<$<` >$@
 
 # Entrez Direct
 
