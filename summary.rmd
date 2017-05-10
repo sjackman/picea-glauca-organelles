@@ -1,0 +1,94 @@
+---
+title: Report summary statistics of a Chromium library
+author: Shaun Jackman
+output:
+  html_document:
+    keep_md: true
+params:
+  input_tsv:
+    label: "Input raw TSV file of read alignments with columns Rname, Start, End, Size, BX, MI, Reads, Mapq_median, AS_median, NM_median"
+    value: "molecules.bam.bx.molecule.tsv"
+    input: text
+  output_tsv:
+    label: "Output TSV file of summary statistics"
+    value: "molecules.bam.bx.molecule.stats.tsv"
+    input: text
+---
+
+```{r setup, include=FALSE}
+library(dplyr)
+library(knitr)
+library(magrittr)
+library(readr)
+library(ggplot2)
+library(scales)
+
+knit_print.data.frame <- function(x, ...) kable(x) %>% paste(collapse = "\n") %>% asis_output
+molecules_filename <- params$input_tsv
+output_tsv_filename <- params$output_tsv
+```
+
+# Calculate Lx and Nx statistics, like L50 and N50
+```{r calculate-n50}
+weighted_median_lx <- function(x, g = sum(x), p = 0.5)
+{
+	tibble(x = x) %>% arrange(desc(x)) %>% mutate(i = seq_along(x), fraction = cumsum(x) / g) %>% filter(fraction >= p) %$% .[[1, "i"]]
+}
+
+weighted_median_nx <- function(x, g = sum(x), p = 0.5)
+{
+	x[[weighted_median_lx(x, g, p)]]
+}
+```
+
+# Read data
+```{r read-data, message=FALSE}
+molecules_orig <- read_tsv(molecules_filename)
+```
+
+# Filter
+```{r filter}
+reads_threshold <- 4
+as_median_threshold <- 100
+nm_median_threshold <- 5
+size_threshold <- 500
+
+molecules <- molecules_orig %>%
+	mutate(
+		LogReadDensity = log10(Reads / ifelse(Size == 0, NA, Size)),
+		Plastid = Rname == "KT634228") %>%
+	filter(!is.na(BX),
+		!Plastid,
+		Reads >= reads_threshold,
+		AS_median >= as_median_threshold,
+		NM_median < nm_median_threshold,
+		Size >= size_threshold)
+```
+
+# Count molecules and reads per barcode
+```{r transform}
+barcodes <- molecules %>%
+	group_by(BX) %>%
+	summarize(Molecules = n(), Reads = sum(Reads)) %>%
+	arrange(desc(Reads)) %>%
+	ungroup()
+```
+
+# GEM Performance
+```{r gem-performance}
+cat(sep = "",
+	"GEMs Detected: ", nrow(barcodes), "\n",
+	"N50 Linked-Reads per GEM: ", weighted_median_nx(barcodes$Reads), "\n",
+	"Mean DNA per GEM: ", mean(molecules$Size), "\n",
+	"Median DNA per GEM: ", median(molecules$Size), "\n",
+	"N50 DNA per GEM: ", weighted_median_nx(molecules$Size), "\n")
+```
+
+# Total DNA Mass
+```{r total-dna-mass}
+ggplot(molecules) +
+	aes(x = Size, weight = Size) +
+	geom_histogram(binwidth = 1000, boundary = 0) +
+	scale_x_continuous(name = "Molecule size", labels = unit_format(unit = "kbp", scale = 1e-3)) +
+	scale_y_continuous(name = "Total DNA mass (Mbp)", labels = unit_format(unit = "Mbp", scale = 1e-6))
+```
