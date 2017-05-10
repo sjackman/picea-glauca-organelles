@@ -22,6 +22,7 @@ library(magrittr)
 library(readr)
 library(ggplot2)
 library(scales)
+library(tidyr)
 
 knit_print.data.frame <- function(x, ...) kable(x) %>% paste(collapse = "\n") %>% asis_output
 molecules_filename <- params$input_tsv
@@ -76,12 +77,15 @@ barcodes <- molecules %>%
 
 # GEM Performance
 ```{r gem-performance}
-cat(sep = "",
-	"GEMs Detected: ", nrow(barcodes), "\n",
-	"N50 Linked-Reads per GEM: ", weighted_median_nx(barcodes$Reads), "\n",
-	"Mean DNA per GEM: ", mean(molecules$Size), "\n",
-	"Median DNA per GEM: ", median(molecules$Size), "\n",
-	"N50 DNA per GEM: ", weighted_median_nx(molecules$Size), "\n")
+summary_table <- tibble(
+	"GEMs Detected" = nrow(barcodes),
+	"N50 Linked-Reads per GEM" = weighted_median_nx(barcodes$Reads),
+	"Mean DNA per GEM" = mean(molecules$Size),
+	"Median DNA per GEM" = median(molecules$Size),
+	"N50 DNA per GEM" = weighted_median_nx(molecules$Size)
+	) %>% gather("Metric", "Value")
+summary_table %>% write_tsv(output_tsv_filename)
+summary_table
 ```
 
 # Total DNA Mass
