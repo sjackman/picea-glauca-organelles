@@ -28,7 +28,7 @@ all: \
 	$(ref).HG3VHALXX_4.longranger.wgs.bam \
 	$(ref).HG3VHALXX_5.longranger.wgs.bam \
 	$(ref).H352FALXX_5.longranger.wgs.bam \
-	$(ref).H352FALXX_5.bam
+	$(ref).H352FALXX_5.as100.nm5.summary.html
 
 # Calculate the SHA-256 of the data.
 %/files.sha256: %/files
@@ -141,3 +141,9 @@ $(ref)_%_longranger_wgs_vconly/outs/phased_possorted_bam.bam: data/%/files refda
 # Symlink the longranger wgs bam file.
 $(ref).%.longranger.wgs.vconly.bam: $(ref)_%_longranger_wgs_vconly/outs/phased_possorted_bam.bam
 	ln -sf $< $@
+
+# RMarkdown
+
+# Report summary statistics of a Chromium library
+%.summary.html: %.bam.bx.molecule.tsv
+	Rscript -e 'rmarkdown::render("summary.rmd", "html_document", "$@", params = list(input_tsv="$<", output_tsv="$*.summary.tsv"))'
