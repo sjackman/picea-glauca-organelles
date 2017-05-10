@@ -58,3 +58,11 @@ $(ref)_%_longranger_wgs/outs/phased_possorted_bam.bam: data/%/files refdata-$(re
 # Symlink the longranger wgs bam file.
 $(ref).%.longranger.wgs.bam: $(ref)_%_longranger_wgs/outs/phased_possorted_bam.bam
 	ln -sf $< $@
+
+# Align reads to the target genome, call variants, and create a Loupe file.
+$(ref)_%_longranger_wgs_vconly/outs/phased_possorted_bam.bam: data/%/files refdata-$(ref)/fasta/genome.fa.bwt
+	longranger wgs --id=$(ref)_$*_longranger_wgs_vconly --vconly --sex=female --reference=refdata-$(ref) --fastqs=$(<D)
+
+# Symlink the longranger wgs bam file.
+$(ref).%.longranger.wgs.vconly.bam: $(ref)_%_longranger_wgs_vconly/outs/phased_possorted_bam.bam
+	ln -sf $< $@
