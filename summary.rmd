@@ -24,6 +24,7 @@ library(ggplot2)
 library(scales)
 library(tidyr)
 
+options(knitr.table.format = 'markdown')
 knit_print.data.frame <- function(x, ...) kable(x) %>% paste(collapse = "\n") %>% asis_output
 molecules_filename <- params$input_tsv
 output_tsv_filename <- params$output_tsv
