@@ -77,13 +77,13 @@ summary_table_barcodes <- tibble(
 summary_table_barcodes
 ```
 
-Metric                         Value
--------------------------  ---------
-GEMs Detected               73524.00
-N50 Linked-Reads per GEM       27.00
-Median DNA per GEM           8586.50
-Mean DNA per GEM            13346.48
-N50 DNA per GEM             23236.00
+|Metric                   |    Value|
+|:------------------------|--------:|
+|GEMs Detected            | 73524.00|
+|N50 Linked-Reads per GEM |    27.00|
+|Median DNA per GEM       |  8586.50|
+|Mean DNA per GEM         | 13346.48|
+|N50 DNA per GEM          | 23236.00|
 
 # Input DNA
 
@@ -98,13 +98,13 @@ summary_table_molecules <- tibble(
 summary_table_molecules
 ```
 
-Metric                              Value
-------------------------------  ---------
-Molecules Detected               84399.00
-N50 Linked-Reads per Molecule       23.00
-Median Molecule Length            7451.00
-Mean Molecule Length             11626.76
-N50 Molecule Length              20195.00
+|Metric                        |    Value|
+|:-----------------------------|--------:|
+|Molecules Detected            | 84399.00|
+|N50 Linked-Reads per Molecule |    23.00|
+|Median Molecule Length        |  7451.00|
+|Mean Molecule Length          | 11626.76|
+|N50 Molecule Length           | 20195.00|
 
 # Total DNA Mass
 
