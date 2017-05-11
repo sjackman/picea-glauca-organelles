@@ -43,8 +43,19 @@ weighted_median_nx <- function(x, g = sum(x), p = 0.5)
 ```
 
 # Read data
-```{r read-data, message=FALSE}
-molecules_orig <- read_tsv(molecules_filename)
+```{r read-data}
+molecules_orig <- read_tsv(molecules_filename,
+	col_types = cols(
+	  Rname = col_character(),
+	  Start = col_integer(),
+	  End = col_integer(),
+	  Size = col_integer(),
+	  BX = col_character(),
+	  MI = col_integer(),
+	  Reads = col_integer(),
+	  Mapq_median = col_integer(),
+	  AS_median = col_integer(),
+	  NM_median = col_integer()))
 ```
 
 # Filter
@@ -67,25 +78,36 @@ molecules <- molecules_orig %>%
 ```
 
 # Count molecules and reads per barcode
-```{r transform}
+```{r count-molecules-per-barcode}
 barcodes <- molecules %>%
 	group_by(BX) %>%
-	summarize(Molecules = n(), Reads = sum(Reads)) %>%
+	summarize(Molecules = n(), Reads = sum(Reads), Size = sum(Size)) %>%
 	arrange(desc(Reads)) %>%
 	ungroup()
 ```
 
 # GEM Performance
 ```{r gem-performance}
-summary_table <- tibble(
+summary_table_barcodes <- tibble(
 	"GEMs Detected" = nrow(barcodes),
 	"N50 Linked-Reads per GEM" = weighted_median_nx(barcodes$Reads),
-	"Mean DNA per GEM" = mean(molecules$Size),
-	"Median DNA per GEM" = median(molecules$Size),
-	"N50 DNA per GEM" = weighted_median_nx(molecules$Size)
+	"Mean DNA per GEM" = mean(barcodes$Size),
+	"Median DNA per GEM" = median(barcodes$Size),
+	"N50 DNA per GEM" = weighted_median_nx(barcodes$Size)
 	) %>% gather("Metric", "Value")
-summary_table %>% write_tsv(output_tsv_filename)
-summary_table
+summary_table_barcodes
+```
+
+# Input DNA
+```{r input-dna}
+summary_table_molecules <- tibble(
+	"Molecules Detected" = nrow(molecules),
+	"N50 Linked-Reads per Molecule" = weighted_median_nx(molecules$Reads),
+	"Mean Molecule Length" = mean(molecules$Size),
+	"Median Molecule Length" = median(molecules$Size),
+	"N50 Molecule Length" = weighted_median_nx(molecules$Size)
+	) %>% gather("Metric", "Value")
+summary_table_molecules
 ```
 
 # Total DNA Mass
@@ -95,4 +117,9 @@ ggplot(molecules) +
 	geom_histogram(binwidth = 1000, boundary = 0) +
 	scale_x_continuous(name = "Molecule size", labels = unit_format(unit = "kbp", scale = 1e-3)) +
 	scale_y_continuous(name = "Total DNA mass (Mbp)", labels = unit_format(unit = "Mbp", scale = 1e-6))
+```
+
+# Write summary table to a TSV file
+```{r write-tsv}
+rbind(summary_table_barcodes, summary_table_molecules) %>% write_tsv(output_tsv_filename)
 ```
