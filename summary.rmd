@@ -91,8 +91,8 @@ barcodes <- molecules %>%
 summary_table_barcodes <- tibble(
 	"GEMs Detected" = nrow(barcodes),
 	"N50 Linked-Reads per GEM" = weighted_median_nx(barcodes$Reads),
-	"Mean DNA per GEM" = mean(barcodes$Size),
 	"Median DNA per GEM" = median(barcodes$Size),
+	"Mean DNA per GEM" = mean(barcodes$Size),
 	"N50 DNA per GEM" = weighted_median_nx(barcodes$Size)
 	) %>% gather("Metric", "Value")
 summary_table_barcodes
@@ -103,8 +103,8 @@ summary_table_barcodes
 summary_table_molecules <- tibble(
 	"Molecules Detected" = nrow(molecules),
 	"N50 Linked-Reads per Molecule" = weighted_median_nx(molecules$Reads),
-	"Mean Molecule Length" = mean(molecules$Size),
 	"Median Molecule Length" = median(molecules$Size),
+	"Mean Molecule Length" = mean(molecules$Size),
 	"N50 Molecule Length" = weighted_median_nx(molecules$Size)
 	) %>% gather("Metric", "Value")
 summary_table_molecules
