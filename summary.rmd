@@ -33,12 +33,12 @@ output_tsv_filename <- params$output_tsv
 ```{r calculate-n50}
 weighted_median_lx <- function(x, g = sum(x), p = 0.5)
 {
-	tibble(x = x) %>% arrange(desc(x)) %>% mutate(i = seq_along(x), fraction = cumsum(x) / g) %>% filter(fraction >= p) %$% .[[1, "i"]]
+	tibble(x = x) %>% arrange(desc(x)) %>% mutate(i = seq_along(x), fraction = cumsum(x) / g) %>% filter(fraction >= p) %$% i[[1]]
 }
 
 weighted_median_nx <- function(x, g = sum(x), p = 0.5)
 {
-	x[[weighted_median_lx(x, g, p)]]
+	tibble(x = x) %>% arrange(desc(x)) %$% x[[weighted_median_lx(x, g, p)]]
 }
 ```
 
