@@ -103,6 +103,10 @@ nm=5
 		match($$0, "MI:i:([^\t]*)", x) { mi = x[1] } \
 		{ print $$2 "\t" $$3 "\t" $$4 "\t" $$5 "\t" as "\t" nm "\t" bx "\t" mi }' >$@
 
+# Group reads into molecules and add molecule identifiers.
+%.bam.mi.bx.tsv: %.bam.bx.tsv
+	Rscript -e 'rmarkdown::render("molecules.rmd", "html_document", "$*.bam.mi.html", params = list(input_tsv="$<", output_tsv="$@"))'
+
 # Create a TSV file of molecule extents.
 %.bx.molecule.tsv: %.bx.tsv
 	mlr --tsvlite \
@@ -145,5 +149,5 @@ $(ref).%.longranger.wgs.vconly.bam: $(ref)_%_longranger_wgs_vconly/outs/phased_p
 # RMarkdown
 
 # Report summary statistics of a Chromium library
-%.summary.html: %.bam.bx.molecule.tsv
+%.bx.molecule.summary.html: %.bx.molecule.tsv
 	Rscript -e 'rmarkdown::render("summary.rmd", "html_document", "$@", params = list(input_tsv="$<", output_tsv="$*.summary.tsv"))'
