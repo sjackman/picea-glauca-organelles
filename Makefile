@@ -25,10 +25,10 @@ all: \
 	data/HG3VHALXX_4/files.sha256 \
 	data/HG3VHALXX_5/files.sha256 \
 	data/H352FALXX_5/files.sha256 \
-	$(ref).HG3VHALXX_4.longranger.wgs.bam \
-	$(ref).HG3VHALXX_5.longranger.wgs.bam \
-	$(ref).H352FALXX_5.longranger.wgs.bam \
-	$(ref).H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html
+	pglaucacpmt.HG3VHALXX_4.longranger.wgs.bam \
+	pglaucacpmt.HG3VHALXX_5.longranger.wgs.bam \
+	pglaucacpmt.H352FALXX_5.longranger.wgs.bam \
+	pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html
 
 # Calculate the SHA-256 of the data.
 %/files.sha256: %/files
