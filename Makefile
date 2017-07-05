@@ -28,7 +28,7 @@ all: \
 	$(ref).HG3VHALXX_4.longranger.wgs.bam \
 	$(ref).HG3VHALXX_5.longranger.wgs.bam \
 	$(ref).H352FALXX_5.longranger.wgs.bam \
-	$(ref).H352FALXX_5.as100.nm5.summary.html
+	$(ref).H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html
 
 # Calculate the SHA-256 of the data.
 %/files.sha256: %/files
