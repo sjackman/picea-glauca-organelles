@@ -106,7 +106,7 @@ nm=5
 
 # Group reads into molecules and add molecule identifiers.
 %.bam.mi.bx.tsv: %.bam.bx.tsv
-	Rscript -e 'rmarkdown::render("mi.rmd", "html_document", "$*.bam.mi.html", params = list(input_tsv="$<", output_tsv="$@"))'
+	./mi.r $< $@
 
 # Create a TSV file of molecule extents.
 %.bx.molecule.tsv: %.bx.tsv
