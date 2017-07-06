@@ -17,9 +17,9 @@ export TIMEFMT=time user=%U system=%S elapsed=%E cpu=%P memory=%M job=%J
 
 .DELETE_ON_ERROR:
 .SECONDARY:
-.PHONY: all data pglaucacpmt psitchensisnuc
+.PHONY: all data pglaucacpmt psitchensiscpmt_6 psitchensisnuc
 
-all: data pglaucacpmt psitchensisnuc
+all: data pglaucacpmt psitchensiscpmt_6 psitchensisnuc
 
 data: \
 	data/HG3VHALXX_4/files.sha256 \
@@ -32,6 +32,10 @@ pglaucacpmt:
 		pglaucacpmt.HG3VHALXX_5.longranger.wgs.bam \
 		pglaucacpmt.H352FALXX_5.longranger.wgs.bam \
 		pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html
+
+psitchensiscpmt_6:
+	$(MAKE) ref=$@ \
+		psitchensiscpmt_6.HYN5VCCXX_4.as100.nm5.bam.mi.bx.molecule.summary.html
 
 psitchensisnuc:
 	$(MAKE) ref=$@ \
