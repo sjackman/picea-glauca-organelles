@@ -28,7 +28,8 @@ all: \
 	pglaucacpmt.HG3VHALXX_4.longranger.wgs.bam \
 	pglaucacpmt.HG3VHALXX_5.longranger.wgs.bam \
 	pglaucacpmt.H352FALXX_5.longranger.wgs.bam \
-	pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html
+	pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html \
+	psitchensisnuc.HYN5VCCXX_4.as100.nm5.bam.mi.bx.molecule.summary.html
 
 # Calculate the SHA-256 of the data.
 %/files.sha256: %/files
