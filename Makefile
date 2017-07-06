@@ -20,15 +20,22 @@ export TIMEFMT=time user=%U system=%S elapsed=%E cpu=%P memory=%M job=%J
 
 .DELETE_ON_ERROR:
 .SECONDARY:
+.PHONY: all data pglaucacpmt psitchensisnuc
 
-all: \
+all: data pglaucacpmt psitchensisnuc
+
+data: \
 	data/HG3VHALXX_4/files.sha256 \
 	data/HG3VHALXX_5/files.sha256 \
-	data/H352FALXX_5/files.sha256 \
+	data/H352FALXX_5/files.sha256
+
+pglaucacpmt: \
 	pglaucacpmt.HG3VHALXX_4.longranger.wgs.bam \
 	pglaucacpmt.HG3VHALXX_5.longranger.wgs.bam \
 	pglaucacpmt.H352FALXX_5.longranger.wgs.bam \
-	pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html \
+	pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.html
+
+psitchensisnuc: \
 	psitchensisnuc.HYN5VCCXX_4.as100.nm5.bam.mi.bx.molecule.summary.html
 
 # Calculate the SHA-256 of the data.
