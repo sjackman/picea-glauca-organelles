@@ -69,7 +69,7 @@ size_threshold <- 500
 molecules <- molecules_orig %>%
 	mutate(
 		LogReadDensity = log10(Reads / ifelse(Size == 0, NA, Size)),
-		Plastid = Rname == "KT634228") %>%
+		Plastid = Rname %in% c("KT634228", "KU215903")) %>%
 	filter(!is.na(BX),
 		!Plastid,
 		Reads >= reads_threshold,
