@@ -18,6 +18,7 @@ The original Loupe report of *Picea sitchensis* Q903 E00132 HYN5VCCXX_4 is at `/
 | Species         | Sample  | Library | Lane        | Report
 |-----------------|---------|---------|-------------|-------
 | *P. glauca*     | WS77111 | A64454  | H352FALXX_5 | [pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.md](pglaucacpmt.H352FALXX_5.as100.nm5.bam.mi.bx.molecule.summary.md)
+| *P. sitchensis* | Q903    | E00132  | HYN5VCCXX_4 | [psitchensiscpmt_6.HYN5VCCXX_4.as100.nm5.bam.mi.bx.molecule.summary.md](psitchensiscpmt_6.HYN5VCCXX_4.as100.nm5.bam.mi.bx.molecule.summary.md)
 | *P. sitchensis* | Q903    | E00132  | HYN5VCCXX_4 | [psitchensisnuc.HYN5VCCXX_4.as100.nm5.bam.mi.bx.molecule.summary.md](psitchensisnuc.HYN5VCCXX_4.as100.nm5.bam.mi.bx.molecule.summary.md)
 
 # Data
